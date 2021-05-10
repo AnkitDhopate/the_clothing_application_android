@@ -22,6 +22,9 @@
                     android:id="@+id/nav_profile"
                     android:title="@string/profile" />
                 <item
+                    android:id="@+id/nav_cart"
+                    android:title="@string/my_cart" />
+                <item
                     android:id="@+id/nav_logout"
                     android:title="@string/logout" />
             </group>

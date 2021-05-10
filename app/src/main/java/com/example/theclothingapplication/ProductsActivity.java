@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ public class ProductsActivity extends AppCompatActivity
 {
     private String slug ;
     private ArrayList<ProductModel> productArrayList ;
-    private RecyclerView productsReyclerView;
+    private RecyclerView productsRecyclerView;
     private ProductsAdapter productsAdapter;
+    
+    private ProgressDialog loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +35,14 @@ public class ProductsActivity extends AppCompatActivity
 
         productArrayList = new ArrayList<>();
 
-        productsReyclerView = findViewById(R.id.products_recycler_view);
-        productsReyclerView.setHasFixedSize(true);
-        productsReyclerView.setLayoutManager(new LinearLayoutManager(this));
+        productsRecyclerView = findViewById(R.id.products_recycler_view);
+        productsRecyclerView.setHasFixedSize(true);
+        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        loadingBar = new ProgressDialog(this);
+        loadingBar.setMessage("Loading products");
+        loadingBar.setCanceledOnTouchOutside(false);
+        loadingBar.show();
 
         Intent intent = getIntent();
         slug = intent.getStringExtra("slug");
@@ -49,16 +57,19 @@ public class ProductsActivity extends AppCompatActivity
                     {
                         productArrayList.add(productModel);
                     }
+                    loadingBar.dismiss();
                     productsAdapter = new ProductsAdapter(productArrayList, ProductsActivity.this);
-                    productsReyclerView.setAdapter(productsAdapter);
+                    productsRecyclerView.setAdapter(productsAdapter);
                 }else
                 {
+                    loadingBar.dismiss();
                     Toast.makeText(ProductsActivity.this, "Error while fetching products", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<ProductModel>> call, Throwable t) {
+                loadingBar.dismiss();
                 Toast.makeText(ProductsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         });

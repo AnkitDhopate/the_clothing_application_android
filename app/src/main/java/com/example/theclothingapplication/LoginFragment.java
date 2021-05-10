@@ -70,7 +70,7 @@ public class LoginFragment extends Fragment {
 
     private void userLogin(final String email, String password)
     {
-        LoginApiModel loginApiModel = new LoginApiModel(email, password);
+        LoginApiModel loginApiModel = new LoginApiModel(email, password, null);
 
         try {
             Call<LoginApiModel> apiModelCall = ApiClient.getInstance().getApi().userSignIn(loginApiModel);
@@ -85,6 +85,7 @@ public class LoginFragment extends Fragment {
                         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Login", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("Remember", "true") ;
+                        editor.putString("token", response.body().getToken());
                         editor.apply();
 
                         startActivity(new Intent(getContext(), HomeActivity.class));

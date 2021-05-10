@@ -5,14 +5,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.theclothingapplication.API.ApiClient;
@@ -36,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView homeRecyclerView;
     private HomeRecyclerViewAdapter homeAdapter;
     private Map<String, Integer> hashMap;
+    private static int countTotalProducts = 0;
 
     private ArrayList<HomeRecyclerViewModel> homeRecyclerViewModelList;
 
@@ -46,6 +50,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Toolbar toolbar;
     // Drawer
+
+    private ProgressDialog loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeRecyclerView = findViewById(R.id.home_recycler_view);
         homeRecyclerView.setHasFixedSize(true);
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        loadingBar = new ProgressDialog(this);
+        loadingBar.setMessage("Loading products");
+        loadingBar.setCanceledOnTouchOutside(false);
+        loadingBar.show();
 
 
         // Drawer
@@ -95,10 +106,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         public void onResponse(Call<ArrayList<ProductModel>> call, Response<ArrayList<ProductModel>> response) {
                             if (response.code() == 201) {
                                 for (ProductModel productModel : response.body()) {
-                                    if (hashMap.containsKey(productModel.getParentId()) && hashMap.get(productModel.getParentId()) < 3) {
+                                    if (hashMap.containsKey(productModel.getParentId()) && hashMap.get(productModel.getParentId()) < 3 && countTotalProducts <= 12) {
                                         homeRecyclerViewModelList.add(new HomeRecyclerViewModel(productModel));
                                         hashMap.put(productModel.getParentId(), hashMap.get(productModel.getParentId()) + 1);
-                                    } else {
+                                        countTotalProducts++;
+                                    } else if (countTotalProducts <= 12) {
                                         if (!hashMap.containsKey(productModel.getParentId())) {
                                             hashMap.put(productModel.getParentId(), 1);
                                         } else {
@@ -107,25 +119,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 }
 
+                                loadingBar.dismiss();
                                 homeAdapter = new HomeRecyclerViewAdapter(homeRecyclerViewModelList, HomeActivity.this);
                                 homeRecyclerView.setAdapter(homeAdapter);
                             } else {
+                                loadingBar.dismiss();
                                 Toast.makeText(HomeActivity.this, "Error", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ArrayList<ProductModel>> call, Throwable t) {
+                            loadingBar.dismiss();
                             Toast.makeText(HomeActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
+                    loadingBar.dismiss();
                     Toast.makeText(HomeActivity.this, "error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<CategoryApiModel>> call, Throwable t) {
+                loadingBar.dismiss();
                 Toast.makeText(HomeActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -147,6 +164,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Remember", "false");
+                editor.putString("token", null);
                 editor.apply();
 
                 startActivity(new Intent(this, LoginActivity.class));
@@ -194,6 +212,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent);
                     }
                 }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+
+            case R.id.nav_cart:
+                Intent intent = new Intent(this, CartActivity.class);
+                startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
         }

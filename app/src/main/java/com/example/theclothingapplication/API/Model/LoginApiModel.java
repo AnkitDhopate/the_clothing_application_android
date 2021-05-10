@@ -2,7 +2,7 @@ package com.example.theclothingapplication.API.Model;
 
 public class LoginApiModel
 {
-    private String firstName, lastName, email, contact, password ;
+    private String firstName, lastName, email, contact, password, token ;
 
     public LoginApiModel(String firstName, String lastName, String email, String contact, String password) {
         this.firstName = firstName;
@@ -12,9 +12,10 @@ public class LoginApiModel
         this.password = password;
     }
 
-    public LoginApiModel(String email, String password) {
+    public LoginApiModel(String email, String password, String token) {
         this.email = email;
         this.password = password;
+        this.token = token;
     }
 
     public String getFirstName() {
@@ -55,5 +56,13 @@ public class LoginApiModel
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
