@@ -22,9 +22,7 @@ import java.util.ArrayList;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder> {
     private ArrayList<ProductModel> productsList;
     private Context context;
-    // IP 18->2
     private String IP = "http://192.168.43.249:";
-    // IP
 
     public ProductsAdapter(ArrayList<ProductModel> productsList, Context context) {
         this.productsList = productsList;

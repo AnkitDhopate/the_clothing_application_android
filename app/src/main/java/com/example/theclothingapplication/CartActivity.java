@@ -24,7 +24,6 @@ public class CartActivity extends AppCompatActivity
 {
     private RecyclerView cartItemsRecyclerView ;
     private CartAdapter adapter;
-    private CartParentModel cartParentModel;
     private ArrayList<CartItemsModel> cartItemsList ;
     private TextView totalText ;
     private int totalPrice ;

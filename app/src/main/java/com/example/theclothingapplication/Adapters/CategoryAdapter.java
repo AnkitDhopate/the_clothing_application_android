@@ -22,9 +22,7 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private ArrayList<CategoryApiModel> categoryList;
     private Context context;
-    // IP 18->2
     private String IP = "http://192.168.43.249:" ;
-    // IP
 
     public CategoryAdapter(ArrayList<CategoryApiModel> categoryList, Context context) {
         this.categoryList = categoryList;
@@ -71,8 +69,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             Intent intent = new Intent(context, SubCategoryActivity.class);
             intent.putExtra("list", list);
             intent.putExtra("CategoryName", list.get(position).getName());
-//            intent.putExtra("subCategory", subCategoryList.get(position));
-//            intent.putExtra("list", list);
             itemView.getContext().startActivity(intent);
         }
     }

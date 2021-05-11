@@ -130,80 +130,39 @@ public class ProductsActivity extends AppCompatActivity implements NavigationVie
                 finish();
                 break;
 
-            case R.id.nav_men:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Mens")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
+            case R.id.nav_home:
+                startActivity(new Intent(this, HomeActivity.class));
+                break;
 
+            case R.id.nav_men:
                 Intent menIntent = new Intent(this, SubCategoryActivity.class);
                 menIntent.putExtra("list", list);
                 menIntent.putExtra("CategoryName", "Mens");
                 startActivity(menIntent);
-
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_women:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Womens")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
-
                 Intent womenIntent = new Intent(this, SubCategoryActivity.class);
                 womenIntent.putExtra("list", list);
                 womenIntent.putExtra("CategoryName", "Womens");
                 startActivity(womenIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_kids:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Kids")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                */
-
                 Intent kidsIntent = new Intent(this, SubCategoryActivity.class);
                 kidsIntent.putExtra("list", list);
                 kidsIntent.putExtra("CategoryName", "Kids");
                 startActivity(kidsIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_new_born:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("New Born")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
-
                 Intent newBornIntent = new Intent(this, SubCategoryActivity.class);
                 newBornIntent.putExtra("list", list);
                 newBornIntent.putExtra("CategoryName", "New Born");
                 startActivity(newBornIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 

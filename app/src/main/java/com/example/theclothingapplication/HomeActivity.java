@@ -5,7 +5,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.theclothingapplication.API.ApiClient;
@@ -42,8 +40,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private static int countTotalProducts = 0;
 
     private ArrayList<HomeRecyclerViewModel> homeRecyclerViewModelList;
-
-    private String IP = "http://192.168.43.249:";
 
     // Drawer
     private DrawerLayout drawerLayout;
@@ -85,6 +81,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
         // Drawer
 
         Call<ArrayList<CategoryApiModel>> call = ApiClient.getInstance().getApi().getCategories();
@@ -171,80 +168,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
 
-            case R.id.nav_men:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Mens")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
+            case R.id.nav_home:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
 
+            case R.id.nav_men:
                 Intent menIntent = new Intent(this, SubCategoryActivity.class);
                 menIntent.putExtra("list", apiModelArrayList);
                 menIntent.putExtra("CategoryName", "Mens");
                 startActivity(menIntent);
-
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_women:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Womens")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
-
                 Intent womenIntent = new Intent(this, SubCategoryActivity.class);
                 womenIntent.putExtra("list", apiModelArrayList);
                 womenIntent.putExtra("CategoryName", "Womens");
                 startActivity(womenIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_kids:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("Kids")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                */
-
                 Intent kidsIntent = new Intent(this, SubCategoryActivity.class);
                 kidsIntent.putExtra("list", apiModelArrayList);
                 kidsIntent.putExtra("CategoryName", "Kids");
                 startActivity(kidsIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.nav_new_born:
-                /*
-                for (CategoryApiModel api : apiModelArrayList) {
-                    if (api.getName().equals("New Born")) {
-                        Intent intent = new Intent(this, SubCategoryActivity.class);
-                        intent.putExtra("subCategory", api);
-                        startActivity(intent);
-                    }
-                }
-                 */
-
                 Intent newBornIntent = new Intent(this, SubCategoryActivity.class);
                 newBornIntent.putExtra("list", apiModelArrayList);
                 newBornIntent.putExtra("CategoryName", "New Born");
                 startActivity(newBornIntent);
-
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 

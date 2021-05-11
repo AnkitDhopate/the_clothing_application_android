@@ -1,6 +1,7 @@
 package com.example.theclothingapplication.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theclothingapplication.API.Model.CategoryApiModel;
 import com.example.theclothingapplication.API.Model.HomeRecyclerViewModel;
+import com.example.theclothingapplication.ProductDetailsActivity;
 import com.example.theclothingapplication.R;
 import com.squareup.picasso.Picasso;
 
@@ -78,8 +80,22 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 String rupee = holder.itemView.getContext().getResources().getString(R.string.Rs);
                 ((AllProductsViewHolder)holder).p_name.setText(homeRecyclerViewModelList.get(position).getProductModel().getName());
                 ((AllProductsViewHolder)holder).p_price.setText(rupee + " " + homeRecyclerViewModelList.get(position).getProductModel().getPrice());
-                ((AllProductsViewHolder)holder).p_desc.setText(homeRecyclerViewModelList.get(position).getProductModel().getDescription());
+                ((AllProductsViewHolder)holder).p_desc.setVisibility(View.GONE);
                 Picasso.get().load(IP+homeRecyclerViewModelList.get(position).getProductModel().getProductImage().split(":", 3)[2]).into(((AllProductsViewHolder)holder).p_image);
+
+                ((AllProductsViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ProductDetailsActivity.class);
+                        intent.putExtra("productName", homeRecyclerViewModelList.get(position).getProductModel().getName());
+                        intent.putExtra("productImage", IP+homeRecyclerViewModelList.get(position).getProductModel().getProductImage().split(":", 3)[2]);
+                        intent.putExtra("productPrice", context.getResources().getString(R.string.Rs)+" "+homeRecyclerViewModelList.get(position).getProductModel().getPrice());
+                        intent.putExtra("productDesc", homeRecyclerViewModelList.get(position).getProductModel().getDescription());
+                        intent.putExtra("productId", homeRecyclerViewModelList.get(position).getProductModel().get_id());
+                        intent.putExtra("parentId", homeRecyclerViewModelList.get(position).getProductModel().getParentId());
+                        context.startActivity(intent);
+                    }
+                });
                 break ;
 
             default:

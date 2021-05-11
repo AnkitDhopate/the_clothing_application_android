@@ -25,4 +25,5 @@
     <string name="categories">Categories</string>
     <string name="all_products">All Products</string>
     <string name="my_cart">My Cart</string>
+    <string name="home">Home</string>
 </resources>

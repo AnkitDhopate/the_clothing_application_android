@@ -12,7 +12,7 @@
         android:textColor="#DD2C00"
         android:layout_margin="5dp"
         android:padding="10dp"
-        android:background="#FFF2F2"
+        android:background="@drawable/text_view_background"
         android:elevation="3dp"
         />
 

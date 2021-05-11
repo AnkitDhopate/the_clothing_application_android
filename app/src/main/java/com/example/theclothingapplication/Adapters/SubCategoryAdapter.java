@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +23,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     private ArrayList<CategoryApiModel> subCategoryList ;
     private ArrayList<CategoryApiModel> list ;
     private Context context;
-    // IP 18->2
     private String IP = "http://192.168.43.249:" ;
-    // IP
 
     public SubCategoryAdapter(ArrayList<CategoryApiModel> subCategoryList, Context context, ArrayList<CategoryApiModel> list) {
         this.subCategoryList = subCategoryList;
