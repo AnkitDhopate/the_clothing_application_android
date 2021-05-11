@@ -76,8 +76,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             case 1 :
                 String rupee = holder.itemView.getContext().getResources().getString(R.string.Rs);
-                ((AllProductsViewHolder)holder).p_name.setText(rupee + " " + homeRecyclerViewModelList.get(position).getProductModel().getName());
-                ((AllProductsViewHolder)holder).p_price.setText(homeRecyclerViewModelList.get(position).getProductModel().getPrice());
+                ((AllProductsViewHolder)holder).p_name.setText(homeRecyclerViewModelList.get(position).getProductModel().getName());
+                ((AllProductsViewHolder)holder).p_price.setText(rupee + " " + homeRecyclerViewModelList.get(position).getProductModel().getPrice());
                 ((AllProductsViewHolder)holder).p_desc.setText(homeRecyclerViewModelList.get(position).getProductModel().getDescription());
                 Picasso.get().load(IP+homeRecyclerViewModelList.get(position).getProductModel().getProductImage().split(":", 3)[2]).into(((AllProductsViewHolder)holder).p_image);
                 break ;

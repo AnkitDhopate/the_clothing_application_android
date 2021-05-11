@@ -22,14 +22,16 @@ import java.util.ArrayList;
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.SubCategoryViewholder>
 {
     private ArrayList<CategoryApiModel> subCategoryList ;
+    private ArrayList<CategoryApiModel> list ;
     private Context context;
     // IP 18->2
     private String IP = "http://192.168.43.249:" ;
     // IP
 
-    public SubCategoryAdapter(ArrayList<CategoryApiModel> subCategoryList, Context context) {
+    public SubCategoryAdapter(ArrayList<CategoryApiModel> subCategoryList, Context context, ArrayList<CategoryApiModel> list) {
         this.subCategoryList = subCategoryList;
         this.context = context;
+        this.list = list ;
     }
 
     @NonNull
@@ -50,6 +52,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
             {
                 Intent intent = new Intent(context, ProductsActivity.class);
                 intent.putExtra("slug", subCategoryList.get(position).getSlug());
+                intent.putExtra("list", list);
                 holder.itemView.getContext().startActivity(intent);
             }
         });

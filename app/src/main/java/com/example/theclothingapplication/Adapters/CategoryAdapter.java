@@ -66,10 +66,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             category_name = itemView.findViewById(R.id.category_name);
         }
 
-        public void loadSubCategories(ArrayList<CategoryApiModel> subCategoryList, Context context, int position)
+        public void loadSubCategories(ArrayList<CategoryApiModel> list, Context context, int position)
         {
             Intent intent = new Intent(context, SubCategoryActivity.class);
-            intent.putExtra("subCategory", subCategoryList.get(position));
+            intent.putExtra("list", list);
+            intent.putExtra("CategoryName", list.get(position).getName());
+//            intent.putExtra("subCategory", subCategoryList.get(position));
+//            intent.putExtra("list", list);
             itemView.getContext().startActivity(intent);
         }
     }
