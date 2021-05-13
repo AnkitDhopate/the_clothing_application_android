@@ -13,6 +13,11 @@ public class ProductModel
         this._id = _id;
     }
 
+    public ProductModel(String _id)
+    {
+        this._id = _id;
+    }
+
     public String getParentId() {
         return parentId;
     }

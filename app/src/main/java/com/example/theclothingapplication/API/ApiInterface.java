@@ -45,4 +45,7 @@ public interface ApiInterface {
 
     @POST("api/user/cart/addtocart")
     Call<CartParentModel> addToCart(@Header("Authorization") String authHeader, @Body CartParentModel cartItemsModel);
+
+    @POST("api/user/cart/removeitem")
+    Call<CartItemsModel> deleteCartItem(@Header("Authorization") String authHeader, @Body CartItemsModel cartItemsModel);
 }
