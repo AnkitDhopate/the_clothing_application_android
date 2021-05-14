@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +54,7 @@ public class ProductsActivity extends AppCompatActivity implements NavigationVie
 
         productsRecyclerView = findViewById(R.id.products_recycler_view);
         productsRecyclerView.setHasFixedSize(true);
-        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        productsRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
         loadingBar = new ProgressDialog(this);
         loadingBar.setMessage("Loading products");

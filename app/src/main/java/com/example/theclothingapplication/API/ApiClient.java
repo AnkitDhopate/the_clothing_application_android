@@ -1,11 +1,13 @@
 package com.example.theclothingapplication.API;
 
+import com.example.theclothingapplication.GlobalVariables;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient
 {
-    private static String BASE_URL = "http://192.168.43.249:2000/" ;
+    private static String BASE_URL = GlobalVariables.IP+"2000/" ;
     private static ApiClient apiClient;
     private static Retrofit retrofit;
 

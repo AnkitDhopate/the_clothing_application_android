@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.theclothingapplication.API.ApiClient;
 import com.example.theclothingapplication.API.Model.CartItemsModel;
 import com.example.theclothingapplication.API.Model.ProductModel;
+import com.example.theclothingapplication.GlobalVariables;
 import com.example.theclothingapplication.R;
 import com.squareup.picasso.Picasso;
 
@@ -28,11 +29,11 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder>
-{
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private ArrayList<CartItemsModel> cartItemsList;
     private Context context;
-    private String IP = "http://192.168.43.249:";
+    //    private String IP = "http://192.168.43.249:";
+    private String IP = GlobalVariables.IP;
     private String token;
 
     public CartAdapter(ArrayList<CartItemsModel> cartItemsList, Context context) {
@@ -40,7 +41,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         this.context = context;
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
-        token = "Bearer "+sharedPreferences.getString("token", "");
+        token = "Bearer " + sharedPreferences.getString("token", "");
     }
 
     @NonNull
@@ -55,7 +56,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         String rupee = holder.itemView.getContext().getResources().getString(R.string.Rs);
         holder.productName.setText(cartItemsList.get(position).getProduct().getName());
         holder.productPrice.setText(rupee + " " + cartItemsList.get(position).getProduct().getPrice());
-        holder.productQuantity.setText("Qty: " +  cartItemsList.get(position).getQuantity());
+        holder.productQuantity.setText("Qty: " + cartItemsList.get(position).getQuantity());
         Picasso.get().load(IP + cartItemsList.get(position).getProduct().getProductImage().split(":", 3)[2]).into(holder.productImage);
 
         holder.cartRemoveBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +67,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 call.enqueue(new Callback<CartItemsModel>() {
                     @Override
                     public void onResponse(Call<CartItemsModel> call, Response<CartItemsModel> response) {
-                        if(response.code() == 201)
-                        {
+                        if (response.code() == 201) {
                             Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
-                            ((Activity)context).finish();
-                            ((Activity)context).startActivity(((Activity)context).getIntent());
-                        }else
-                        {
-                            Toast.makeText(context, "error: "+response.message(), Toast.LENGTH_SHORT).show();
+                            ((Activity) context).finish();
+                            ((Activity) context).startActivity(((Activity) context).getIntent());
+                        } else {
+                            Toast.makeText(context, "error: " + response.message(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -91,11 +90,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartItemsList.size();
     }
 
-    public class CartViewHolder extends RecyclerView.ViewHolder
-    {
+    public class CartViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
-        private TextView productName, productPrice, productQuantity ;
-        private Button cartRemoveBtn ;
+        private TextView productName, productPrice, productQuantity;
+        private Button cartRemoveBtn;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theclothingapplication.API.Model.CategoryApiModel;
+import com.example.theclothingapplication.GlobalVariables;
 import com.example.theclothingapplication.ProductsActivity;
 import com.example.theclothingapplication.R;
 import com.squareup.picasso.Picasso;
@@ -23,7 +24,8 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     private ArrayList<CategoryApiModel> subCategoryList ;
     private ArrayList<CategoryApiModel> list ;
     private Context context;
-    private String IP = "http://192.168.43.249:" ;
+//    private String IP = "http://192.168.43.249:" ;
+    private String IP = GlobalVariables.IP;
 
     public SubCategoryAdapter(ArrayList<CategoryApiModel> subCategoryList, Context context, ArrayList<CategoryApiModel> list) {
         this.subCategoryList = subCategoryList;

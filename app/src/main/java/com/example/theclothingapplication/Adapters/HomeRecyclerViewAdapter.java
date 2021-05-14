@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theclothingapplication.API.Model.CategoryApiModel;
 import com.example.theclothingapplication.API.Model.HomeRecyclerViewModel;
+import com.example.theclothingapplication.GlobalVariables;
 import com.example.theclothingapplication.ProductDetailsActivity;
 import com.example.theclothingapplication.R;
 import com.squareup.picasso.Picasso;
@@ -24,7 +25,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<HomeRecyclerViewModel> homeRecyclerViewModelList;
     private Context context;
 
-    private String IP = "http://192.168.43.249:" ;
+//    private String IP = "http://192.168.43.249:" ;
+    private String IP = GlobalVariables.IP;
 
     public HomeRecyclerViewAdapter(ArrayList<HomeRecyclerViewModel> homeRecyclerViewModelList, Context context) {
         this.homeRecyclerViewModelList = homeRecyclerViewModelList;
@@ -55,7 +57,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 return new CategoryViewHolder(category_view);
 
             case 1:
-                View all_products_view = LayoutInflater.from(context).inflate(R.layout.home_product_layout, parent, false);
+                View all_products_view = LayoutInflater.from(context).inflate(R.layout.product_layout, parent, false);
                 return new AllProductsViewHolder(all_products_view);
 
             case 2:
