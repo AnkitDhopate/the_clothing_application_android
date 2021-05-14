@@ -3,9 +3,11 @@ package com.example.theclothingapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView homeRecyclerView;
     private HomeRecyclerViewAdapter homeAdapter;
     private Map<String, Integer> hashMap;
-    private static int countTotalProducts = 0;
+    private static int countTotalProducts;
 
     private ArrayList<HomeRecyclerViewModel> homeRecyclerViewModelList;
 
@@ -54,6 +56,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        countTotalProducts = 0 ;
+
         apiModelArrayList = new ArrayList<>();
         homeRecyclerViewModelList = new ArrayList<>();
         hashMap = new HashMap<>();
@@ -61,6 +65,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         homeRecyclerView = findViewById(R.id.home_recycler_view);
         homeRecyclerView.setHasFixedSize(true);
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
         loadingBar = new ProgressDialog(this);
         loadingBar.setMessage("Loading products");
@@ -96,18 +102,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                     homeRecyclerViewModelList.add(new HomeRecyclerViewModel(apiModelArrayList));
 
-                    homeRecyclerViewModelList.add(new HomeRecyclerViewModel("All Products"));
+                    homeRecyclerViewModelList.add(new HomeRecyclerViewModel("Top Products"));
 
                     productModelCall.enqueue(new Callback<ArrayList<ProductModel>>() {
                         @Override
                         public void onResponse(Call<ArrayList<ProductModel>> call, Response<ArrayList<ProductModel>> response) {
                             if (response.code() == 201) {
                                 for (ProductModel productModel : response.body()) {
-                                    if (hashMap.containsKey(productModel.getParentId()) && hashMap.get(productModel.getParentId()) < 3 && countTotalProducts <= 12) {
+                                    if (hashMap.containsKey(productModel.getParentId()) && hashMap.get(productModel.getParentId()) < 2 && countTotalProducts <= 12) {
                                         homeRecyclerViewModelList.add(new HomeRecyclerViewModel(productModel));
                                         hashMap.put(productModel.getParentId(), hashMap.get(productModel.getParentId()) + 1);
                                         countTotalProducts++;
-                                    } else if (countTotalProducts <= 12) {
+                                    } else if (countTotalProducts < 9) {
                                         if (!hashMap.containsKey(productModel.getParentId())) {
                                             hashMap.put(productModel.getParentId(), 1);
                                         } else {
@@ -116,9 +122,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 }
 
-                                loadingBar.dismiss();
                                 homeAdapter = new HomeRecyclerViewAdapter(homeRecyclerViewModelList, HomeActivity.this);
                                 homeRecyclerView.setAdapter(homeAdapter);
+
+                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                    @Override
+                                    public int getSpanSize(int position) {
+                                        switch (homeAdapter.getItemViewType(position)) {
+                                            case 1:
+                                                return 1;
+                                            default:
+                                                return 3;
+                                        }
+                                    }
+                                });
+                                homeRecyclerView.setLayoutManager(gridLayoutManager);
+
+                                loadingBar.dismiss();
                             } else {
                                 loadingBar.dismiss();
                                 Toast.makeText(HomeActivity.this, "Error", Toast.LENGTH_SHORT).show();

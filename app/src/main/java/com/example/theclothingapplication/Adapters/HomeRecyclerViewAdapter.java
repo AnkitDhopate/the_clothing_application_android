@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,16 +50,17 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case 0:
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 View category_view = LayoutInflater.from(context).inflate(R.layout.category_recycler_view, parent, false);
                 return new CategoryViewHolder(category_view);
 
             case 1:
-                View all_products_view = LayoutInflater.from(context).inflate(R.layout.product_layout, parent, false);
+                View all_products_view = LayoutInflater.from(context).inflate(R.layout.home_product_layout, parent, false);
                 return new AllProductsViewHolder(all_products_view);
 
             case 2:
                 View all_products_title = LayoutInflater.from(context).inflate(R.layout.home_all_products_title, parent, false);
-                return new AllProductsViewHolder(all_products_title);
+                return new AllProductsTitleViewHolder(all_products_title);
 
             default:
                 return null;
@@ -80,7 +80,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 String rupee = holder.itemView.getContext().getResources().getString(R.string.Rs);
                 ((AllProductsViewHolder)holder).p_name.setText(homeRecyclerViewModelList.get(position).getProductModel().getName());
                 ((AllProductsViewHolder)holder).p_price.setText(rupee + " " + homeRecyclerViewModelList.get(position).getProductModel().getPrice());
-                ((AllProductsViewHolder)holder).p_desc.setVisibility(View.GONE);
                 Picasso.get().load(IP+homeRecyclerViewModelList.get(position).getProductModel().getProductImage().split(":", 3)[2]).into(((AllProductsViewHolder)holder).p_image);
 
                 ((AllProductsViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +96,10 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
                 });
                 break ;
+
+            case 2 :
+                ((AllProductsTitleViewHolder)holder).title.setText(homeRecyclerViewModelList.get(position).getAll_products_title());
+                break;
 
             default:
                 break ;
@@ -130,7 +133,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class AllProductsViewHolder extends RecyclerView.ViewHolder {
-        private TextView p_name, p_price, p_desc;
+        private TextView p_name, p_price;
         private ImageView p_image;
 
         public AllProductsViewHolder(@NonNull View itemView) {
@@ -138,15 +141,18 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             p_name = itemView.findViewById(R.id.product_name);
             p_price = itemView.findViewById(R.id.product_price);
-            p_desc = itemView.findViewById(R.id.product_description);
             p_image = itemView.findViewById(R.id.product_image);
         }
     }
 
     public class AllProductsTitleViewHolder extends RecyclerView.ViewHolder
     {
+        private TextView title;
+
         public AllProductsTitleViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            title = itemView.findViewById(R.id.txt_title);
         }
     }
 }
